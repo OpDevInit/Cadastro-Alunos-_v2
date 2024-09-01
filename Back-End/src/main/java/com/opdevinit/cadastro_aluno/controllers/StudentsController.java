@@ -21,9 +21,9 @@ public class StudentsController {
 
     private Students students;
     private List<Students> listStud = new ArrayList<>( List
-        .of(new Students(1, "Jhonn", "Jhonn123@gmail.com", "11967390014", 1, 1),
-            new Students(2, "Lucca", "lucc485@gmail.com", "36981063821", 2, 2),
-            new Students(3, "Giovanna", "gi382@gmail.com", "35927164421", 3, 3)));
+        .of(new Students(1, "Jhonn", "Jhonn123@gmail.com", "(11) 96739-0014", 1, 1),
+            new Students(2, "Lucca", "lucc485@gmail.com", "(36) 98106-3821", 2, 2),
+            new Students(3, "Giovanna", "gi382@gmail.com", "(35) 92716-4421", 3, 3)));
 
     @GetMapping("/students")
     public List<Students> getStudents() {

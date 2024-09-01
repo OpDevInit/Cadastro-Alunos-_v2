@@ -1,25 +1,27 @@
-
-
-
-
-var students = [];
 var courses = [];
+var students = [];
+
 
 loadCourses();
 loadStudents();
 
-
-
-
 function loadCourses() {
-    $.getJSON("http://localhost:8080/courses", (response) => {
-        courses = response;
-        for (var cour of courses) {
-            document.getElementById("selectCourse").innerHTML += `<option value= ${cour.id}>${cour.name}</option>`;
+    $.ajax({
+        url: "http://localhost:8080/courses",
+        type:'GET',
+        async: false,
+        success: (response) => {
+            courses = response;
+            for (var cour of courses) {
+                document.getElementById("selectCourse").innerHTML += `<option value= ${cour.id}>${cour.name}</option>`;
 
+            }
         }
+    }).fail(function () {
+        console.log("error");
     })
 }
+
 
 function loadStudents() {
     $.getJSON("http://localhost:8080/students", (response) => {
@@ -29,10 +31,6 @@ function loadStudents() {
     })
 }
 
-
-
-
-
 //Save a product
 
 function save() {
@@ -41,21 +39,25 @@ function save() {
         name: document.getElementById("inputName").value,
         email: document.getElementById("inputEmail").value,
         phone: document.getElementById("inputPhone").value,
-        course: document.getElementById("selectCourse").value,
+        idCurso: document.getElementById("selectCourse").value,
         turn1: document.getElementById("turn1").checked,
         turn2: document.getElementById("turn2").checked,
         turn3: document.getElementById("turn3").checked,
-
-
-
     };
 
-    console.log("saves");
+    $.ajax({
+        url: "http://localhost:8080/students",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(stud),
+        success: (student) => {
+            addNewRow(stud);
+            students.push(stud)
+            document.getElementById("formStudent").reset();
+            console.log("saves");
+        }
+    })
 
-    addNewRow(stud);
-    students.push(stud)
-
-    document.getElementById("formStudent").reset();
 }
 
 function addNewRow(stud) {
@@ -84,23 +86,15 @@ function addNewRow(stud) {
     cell.className = 'd-none d-md-table-cell'
     cell.appendChild(cursoNode);
 
-    var options = "";
+    var options = '';
 
-    switch (stud.period) {
-        case 1:
-            options = 'Manhã';
-            break;
-
-        case 2:
-            options = 'Tarde';
-            break;
-
-        case 3:
-            options = 'Noite';
-            break;
-
-        default:
-            break;
+    if (stud.turn1 || stud.period == 1) {
+        options =  'Manhã';
+           
+    }if(stud.turn2 || stud.period ==2 ) {
+        options =  'Tarde';
+    }if(stud.turn3 || stud.period ==3 ) {
+        options =  'Noite';
     }
 
     cell = newRow.insertCell();
