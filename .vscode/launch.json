@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CadastroAlunoApplication",
+            "request": "launch",
+            "mainClass": "com.opdevinit.cadastro_aluno.CadastroAlunoApplication"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-CadastroAlunoApplication<cadastro-aluno>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
